@@ -9,7 +9,7 @@
           <a href="#">{{product.name}}</a>
         </h5>
         <p class="product-price">{{product.price | currency: 'USD'}}</p>
-        <p><app-ratings [score]="product.rating" ></app-ratings></p>
+        <app-ratings [score]="product.rating" ></app-ratings>
       </div>
     </div>
   }
