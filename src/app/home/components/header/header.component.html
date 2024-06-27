@@ -4,14 +4,19 @@
       <h1>estore</h1>
     </div>
     <div id="search-bar-container" class="p-0 my-4 w-50 h-25 bg-white">
-      <select #categoryOptions name="category-dropdown" id="category-dropdown" class="dropdown p-0 m-0">
-        @for (category of categoryStore.topLevelCategories$ | async; track category.id) {
-          <option value="{{category.id}}">{{category.category}}</option>
-        }
-      </select>
-      <input #keyword type="text" class="form-control search-box" placeholder="Search...">
-      <button class="search-button" (click)="onClickSearch(keyword.value, categoryOptions.value)"><fa-icon [icon]="faSearch" /></button>
+      @if (displaySearch) {
+        <select #categoryOptions name="category-dropdown" id="category-dropdown" class="dropdown p-0 m-0">
+          @for (category of categoryStore.topLevelCategories$ | async; track category.id) {
+            <option value="{{category.id}}">{{category.category}}</option>
+          }
+        </select>
+        <input #keyword type="text" class="form-control search-box" placeholder="Search...">
+        <button class="search-button" (click)="onClickSearch(keyword.value, categoryOptions.value)">
+          <fa-icon [icon]="faSearch" />
+        </button>
+      }
     </div>
+
     <div class="login-container p-0">
       <fa-icon class="user-icon" [icon]="faUserCircle"></fa-icon>
       <h5><a href="#">Sign in</a></h5> / <h5><a href="#">Register</a></h5>

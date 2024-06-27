@@ -5,6 +5,7 @@ import { CategoriesStoreItem } from './services/category/categories.storeItem';
 import { ProductsStoreItem } from './services/product/products.storeItem';
 import { SearchKeyword } from './types/searchKeyword.type';
 import { ProductsGalleryComponent } from './components/products-gallery/products-gallery.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import { ProductsGalleryComponent } from './components/products-gallery/products
   imports: [
     HeaderComponent,
     CategoryNavigationComponent,
-    ProductsGalleryComponent
+    ProductsGalleryComponent,
+    RouterOutlet
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

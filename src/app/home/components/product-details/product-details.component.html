@@ -1,0 +1,23 @@
+<div class="row my-5 product-details-container">
+  @if (product) {
+    <div class="col-5 product-image-container">
+      <img [src]="'images/' + product.image" [alt]="product.name">
+    </div>
+    <div class="col-7 product-info-container">
+      <span id="product-name">{{product.name}}</span>
+      <app-ratings [score]="product.rating || 0"></app-ratings>
+      <hr />
+      <div class="product-price">
+        Price: <span class="price">{{product.price | currency}}</span>
+        <div>Inclusive of all taxes.</div>
+      </div>
+      <div class="my-3 product-description">
+        {{product.description}}
+      </div>
+    </div>
+  } @else {
+    <div class="col-12 text-center">
+      <h3>Product not found!</h3>
+    </div>
+  }
+</div>

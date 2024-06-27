@@ -4,6 +4,8 @@ import { faSearch, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-
 import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 import { CommonModule } from '@angular/common';
 import { SearchKeyword } from '../../types/searchKeyword.type';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +22,13 @@ export class HeaderComponent {
   @Output()
   searchClicked: EventEmitter<SearchKeyword> = new EventEmitter<SearchKeyword>();
 
-  constructor(public categoryStore: CategoriesStoreItem) {}
+  displaySearch: boolean = true;
+
+  constructor(public categoryStore: CategoriesStoreItem, private router: Router) {
+    router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+      this.displaySearch = (event as NavigationEnd).url === '/home/products';
+    });
+  }
 
   onClickSearch(keyword: string, categoryId: string) {
     this.searchClicked.emit({ keyword, categoryId: parseInt(categoryId) });

@@ -2,11 +2,13 @@
   @for (product of productsStoreItem.products$ | async; track $index) {
     <div class="mx-5 p-3 product-card">
       <div class="product-image-container">
-        <img [src]="'/images/' + product.image" [alt]="product.name">
+        <a [routerLink]="'/home/product/' + product.id">
+          <img [src]="'/images/' + product.image" [alt]="product.name">
+        </a>
       </div>
       <div class="product-info">
         <h5>
-          <a href="#">{{product.name}}</a>
+          <a [routerLink]="'/home/product/' + product.id">{{product.name}}</a>
         </h5>
         <p class="product-price">{{product.price | currency: 'USD'}}</p>
         <app-ratings [score]="product.rating" ></app-ratings>
