@@ -1,8 +1,8 @@
 <div class="main-product-container">
-  @for (product of products; track $index) {
+  @for (product of productsStoreItem.products$ | async; track $index) {
     <div class="mx-5 p-3 product-card">
       <div class="product-image-container">
-        <img [src]="'/images/' + product.image + '.jpg'" [alt]="product.name">
+        <img [src]="'/images/' + product.image" [alt]="product.name">
       </div>
       <div class="product-info">
         <h5>
@@ -11,6 +11,10 @@
         <p class="product-price">{{product.price | currency: 'USD'}}</p>
         <app-ratings [score]="product.rating" ></app-ratings>
       </div>
+    </div>
+  } @empty {
+    <div class="text-center">
+      <h3>No products found</h3>
     </div>
   }
 </div>

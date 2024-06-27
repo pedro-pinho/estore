@@ -4,13 +4,13 @@
       <h1>estore</h1>
     </div>
     <div id="search-bar-container" class="p-0 my-4 w-50 h-25 bg-white">
-      <select name="category-dropdown" id="category-dropdown" class="dropdown p-0 m-0">
-        <option value="men">Men</option>
-        <option value="women">Women</option>
-        <option value="kids">Kids</option>
+      <select #categoryOptions name="category-dropdown" id="category-dropdown" class="dropdown p-0 m-0">
+        @for (category of categoryStore.topLevelCategories$ | async; track category.id) {
+          <option value="{{category.id}}">{{category.category}}</option>
+        }
       </select>
-      <input type="text" class="form-control search-box" placeholder="Search...">
-      <button class="search-button"><fa-icon [icon]="faSearch" /></button>
+      <input #keyword type="text" class="form-control search-box" placeholder="Search...">
+      <button class="search-button" (click)="onClickSearch(keyword.value, categoryOptions.value)"><fa-icon [icon]="faSearch" /></button>
     </div>
     <div class="login-container p-0">
       <fa-icon class="user-icon" [icon]="faUserCircle"></fa-icon>
@@ -18,9 +18,6 @@
     </div>
     <div class="cart-wishlist">
       <ul class="p-0">
-        <li class="list-item">
-          <fa-icon [icon]="faHeart"></fa-icon>
-        </li>
         <li class="list-item">
           <fa-icon [icon]="faShoppingCart"></fa-icon>
         </li>

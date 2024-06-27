@@ -1,10 +1,10 @@
-<app-header></app-header>
-<app-category-navigation></app-category-navigation>
+<app-header (searchClicked)="onSearchKeyword($event)"></app-header>
+<app-category-navigation (categoryClicked)="onSelectCategory($event)"></app-category-navigation>
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-2 col-md-3 col-sm-4">
-      <app-sidebar-navigation></app-sidebar-navigation>
+      <app-sidebar-navigation (subCategoryClicked)="onSelectSubCategory($event)"></app-sidebar-navigation>
     </div>
     <div class="col-lg-10 col-md-9 col-sm-8">
       <app-products></app-products>

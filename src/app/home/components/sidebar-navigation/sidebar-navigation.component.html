@@ -18,7 +18,7 @@
           <ul>
             @for (subCategory of getCategories(mainCategory.id); track $index) {
               <li class="sub-items">
-                <a href="#">{{subCategory.category}}</a>
+                <a (click)="onSubCategoryClicked(subCategory)">{{subCategory.category}}</a>
               </li>
             }
           </ul>
