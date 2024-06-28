@@ -14,6 +14,10 @@ export const routes: Routes = [
       {
         path: 'product/:id',
         loadComponent: () => import('./home/components/product-details/product-details.component').then(m => m.ProductDetailsComponent)
+      },
+      {
+        path: 'cart',
+        loadComponent: () => import('./home/components/cart/cart.component').then(m => m.CartComponent)
       }
     ]
   },

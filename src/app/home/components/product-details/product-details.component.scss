@@ -11,7 +11,7 @@
     }
   }
 
-  .product-info-container {
+  .product-information-container {
     padding-left: 3em;
 
     #product-name {
@@ -36,6 +36,31 @@
     .product-description {
       font-size: 1.5em;
       font-weight: 600;
+    }
+
+    .cart-button {
+      width: 25%;
+      height: 3em;
+
+      .cart-icon-container {
+        display: inline-block;
+        text-align: center;
+        margin-right: 1em;
+
+        fa-icon {
+          font-size: 1.2em;
+        }
+      }
+
+      .cart-text-container {
+        display: inline-block;
+        text-align: center;
+
+        p {
+          font-size: 1.3em;
+          font-weight: 500;
+        }
+      }
     }
   }
 }
