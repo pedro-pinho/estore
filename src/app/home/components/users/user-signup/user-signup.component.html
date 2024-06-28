@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="text-center">
+    <h2>Become A Member</h2>
+  </div>
+  <form [formGroup]="userSignupForm" (ngSubmit)="onSubmit()">
+    <div class="row form-group-margin">
+      <div class="form-group col-md-6">
+        <label for="firstName">First Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="first_name"
+        />
+        @if (firstName?.touched && firstName?.errors?.['required']) {
+          <span class="text-danger">First Name is required</span>
+        }
+        @if (firstName?.touched && firstName?.errors?.['minlength']) {
+          <span class="text-danger">First Name should be at least 3 characters</span>
+        }
+      </div>
+      <div class="form-group col-md-6">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="last_name"
+        />
+      </div>
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="address">Address</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        formControlName="address"
+      />
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="city">City</label>
+      <input
+        type="text"
+        class="form-control"
+        id="city"
+        formControlName="city"
+      />
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="address">State</label>
+      <input
+        type="text"
+        class="form-control"
+        id="state"
+        formControlName="state"
+      />
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="pin">Pin / Zip code</label>
+      <input type="text" class="form-control" id="pin" formControlName="pin" />
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="email">Email*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        autocomplete="email"
+      />
+      @if (email?.touched && email?.errors?.['required']) {
+        <span class="text-danger">Email is required</span>
+      }
+      @if (email?.touched && email?.errors?.['email']) {
+        <span class="text-danger">Invalid email</span>
+      }
+    </div>
+    <div class="form-group form-group-margin">
+      <label for="password">Password*</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        autocomplete="new-password"
+      />
+      @if (password?.touched && password?.errors?.['required']) {
+        <span class="text-danger">Password is required</span>
+      }
+      @if (password?.touched && password?.errors?.['minlength']) {
+        <span class="text-danger">Password should be at least 6 characters</span>
+      }
+    </div>
+
+    <div class="form-group form-group-margin">
+      <label for="confirmPassword">Confirm Password*</label>
+      <input
+        type="password"
+        class="form-control"
+        id="confirmPassword"
+        formControlName="confirm_password"
+        autocomplete="new-password"
+      />
+      @if (confirmPassword?.touched && confirmPassword?.errors?.['required']) {
+        <span class="text-danger">Please confirm password</span>
+      }
+      @if (confirmPassword?.touched && userSignupForm.errors?.['matchPasswords']) {
+        <span class="text-danger">Passwords do not match</span>
+      }
+    </div>
+    <div class="text-center form-group-margin">
+      <button type="submit" class="btn btn-warning" [disabled]="!userSignupForm.valid">Join</button>
+    </div>
+
+    @if (
+      alert &&
+      alert.message &&
+      alert.type !== undefined &&
+      alert.type !== null
+    ) {
+      <div class="alert" [ngClass]="alert.type === 0 ? 'alert-success' : alert.type === 1 ? 'alert-info' : alert.type === 2 ? 'alert-warning' : 'alert-danger'">
+        <fa-icon [icon]="alert.type === 0 ? faCheckCircle : alert.type === 1 ? faInfoCircle : alert.type === 2 ? faExclamationCircle : faTimesCircle"></fa-icon>
+        {{ alert.message }}
+      </div>
+    }
+
+  </form>
+
+</div>

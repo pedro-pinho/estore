@@ -38,4 +38,8 @@ export class HeaderComponent {
   navigateToCart(): void {
     this.router.navigate(['/home/cart']);
   }
+
+  navigateToSignup(): void {
+    this.router.navigate(['/home/signup']);
+  }
 }
