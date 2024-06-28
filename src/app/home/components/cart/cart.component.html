@@ -9,7 +9,7 @@
 }
 @if (cartStore.cart$| async; as cart) {
   <div class="row my-5 fc-main-div">
-    <div class="col-8-p-4">
+    <div class="col-8 p-4">
       @for (cartItem of cart.products; track $index) {
         <div class="row cart-item-card">
           <div class="col-4">
@@ -47,6 +47,19 @@
         </div>
       }
 
+    </div>
+    <div class="col-4 px-4 py-3 my-4 cart-summary">
+      <h2 class="mb-5 mt-3">Summary</h2>
+      <div>
+        <span>Cart Total : {{cart.totalAmount | currency}}</span>
+        <span>Shipping Charges : Free</span>
+        <hr />
+        <span class="summary-total">
+          Total: {{ cart.totalAmount | currency}}
+        </span>
+        <hr />
+      </div>
+      <div class="btn btn-outline-dark w-100 mb-4 mt-1">Checkout</div>
     </div>
   </div>
 }
