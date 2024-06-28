@@ -42,4 +42,8 @@ export class HeaderComponent {
   navigateToSignup(): void {
     this.router.navigate(['/home/signup']);
   }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/home/login']);
+  }
 }

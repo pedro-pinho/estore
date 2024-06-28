@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { matchPasswords } from './validators/match-passwords.validator';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../../services/users/user.service';
 import type { User } from '../../../types/user.type';
 import type { Alert } from '../../../types/alert.type';
 import { AlertType } from '../../../types/alert.type';
@@ -15,7 +15,6 @@ import { faCheckCircle, faExclamationCircle, faInfoCircle, faTimesCircle } from 
   imports: [ReactiveFormsModule, FormsModule, CommonModule, FontAwesomeModule],
   templateUrl: './user-signup.component.html',
   styleUrl: './user-signup.component.scss',
-  providers: [UserService],
 })
 export class UserSignupComponent implements OnInit {
   userSignupForm: FormGroup;
