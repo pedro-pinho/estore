@@ -13,6 +13,7 @@ import type {
 })
 export class UserService {
   private autoLogoutTimer: any;
+  private authToken: string;
   private isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
@@ -36,6 +37,10 @@ export class UserService {
     return this.loggedInUserInfo.asObservable();
   }
 
+  get token(): string {
+    return this.authToken;
+  }
+
   createUser(user: User): Observable<any> {
     const url = 'http://localhost:5001/users/signup';
     return this.httpClient.post(url, user);
@@ -46,16 +51,18 @@ export class UserService {
     return this.httpClient.post(url, user);
   }
 
-  activateToken(token: UserLoginResponse): void {
+  activateToken(token: UserLoginResponse, email: string): void {
+    const user = { ...token.user, email };
     localStorage.setItem('token', token.token);
     localStorage.setItem(
       'expiresIn',
       new Date(Date.now() + token.expiresIn * 1000).toISOString(),
     );
-    localStorage.setItem('user', JSON.stringify(token.user));
+    localStorage.setItem('user', JSON.stringify(user));
     this.isAuthenticated.next(true);
     this.loggedInUserInfo.next(token.user);
     this.setAutoLogoutTimer(token.expiresIn * 1000);
+    this.authToken = token.token;
   }
 
   logoutUser(): void {
@@ -87,6 +94,7 @@ export class UserService {
         this.isAuthenticated.next(true);
         this.loggedInUserInfo.next(JSON.parse(user));
         this.setAutoLogoutTimer(Number(expiresIn));
+        this.authToken = token;
       } else {
         this.logoutUser();
       }

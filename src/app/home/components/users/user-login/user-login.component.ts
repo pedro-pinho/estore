@@ -56,7 +56,7 @@ export class UserLoginComponent implements OnInit {
       .loginUser({ email: this.email?.value, password: this.password?.value })
       .subscribe({
         next: (response: UserLoginResponse) => {
-          this.userService.activateToken(response);
+          this.userService.activateToken(response, this.email?.value);
           this.alert = { message: 'Success', type: AlertType.Success };
           setTimeout(() => {
             this.location.back();
