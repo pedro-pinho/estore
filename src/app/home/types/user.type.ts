@@ -17,4 +17,14 @@ export interface UserLogin {
 export interface UserLoginResponse {
   token: string;
   expiresIn: number;
+  user: loggedInUser;
+}
+
+export interface loggedInUser {
+  first_name: string;
+  last_name: string;
+  address: string;
+  city: string;
+  state: string;
+  pin: string;
 }

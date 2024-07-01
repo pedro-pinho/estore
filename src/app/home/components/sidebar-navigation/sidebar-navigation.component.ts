@@ -16,12 +16,11 @@ export class SidebarNavigationComponent implements OnDestroy {
   categories: Category[] = [];
   subscription: Subscription = new Subscription();
 
-
   constructor(categoryStore: CategoriesStoreItem) {
     this.subscription.add(
       categoryStore.categories$.subscribe((categories) => {
         this.categories = categories;
-      })
+      }),
     );
   }
 
@@ -29,7 +28,7 @@ export class SidebarNavigationComponent implements OnDestroy {
     return this.categories.filter((category) =>
       parentCategoryId
         ? category.parent_category_id === parentCategoryId
-        : !category.parent_category_id
+        : !category.parent_category_id,
     );
   }
 

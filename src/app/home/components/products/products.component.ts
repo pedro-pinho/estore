@@ -17,7 +17,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class ProductsComponent {
   faShoppingCart = faShoppingCart;
-  constructor(public productsStoreItem: ProductsStoreItem, private cart: CartStoreItem) {}
+  constructor(
+    public productsStoreItem: ProductsStoreItem,
+    private cart: CartStoreItem,
+  ) {}
 
   addToCart(product: Product): void {
     this.cart.addProduct(product);

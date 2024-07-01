@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
@@ -7,6 +7,8 @@ import { SearchKeyword } from '../../types/searchKeyword.type';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CartStoreItem } from '../../services/cart/cart.storeItem';
+import { UserService } from '../../services/users/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -15,20 +17,38 @@ import { CartStoreItem } from '../../services/cart/cart.storeItem';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   faSearch = faSearch;
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
+  subscriptions: Subscription = new Subscription();
 
   @Output()
   searchClicked: EventEmitter<SearchKeyword> = new EventEmitter<SearchKeyword>();
 
-  displaySearch: boolean = true;
+  displaySearch = true;
+  isUserAuthenticated = false;
+  userName = '';
 
-  constructor(public categoryStore: CategoriesStoreItem, private router: Router, public cartStore: CartStoreItem) {
+  constructor(
+    public categoryStore: CategoriesStoreItem,
+    private router: Router,
+    public cartStore: CartStoreItem,
+    public userService: UserService,
+  ) {
     router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.displaySearch = (event as NavigationEnd).url === '/home/products';
     });
+    this.subscriptions.add(
+      this.userService.isUserAuthenticated$.subscribe((isAuthenticated) => {
+        this.isUserAuthenticated = isAuthenticated;
+      }),
+    );
+    this.subscriptions.add(
+      this.userService.loggedInUser$.subscribe((result) => {
+        this.userName = result.first_name;
+      }),
+    );
   }
 
   onClickSearch(keyword: string, categoryId: string) {
@@ -45,5 +65,14 @@ export class HeaderComponent {
 
   navigateToLogin(): void {
     this.router.navigate(['/home/login']);
+  }
+
+  logout(): void {
+    this.userService.logoutUser();
+    this.router.navigate(['/home/products']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

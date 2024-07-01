@@ -3,7 +3,9 @@
     <li><a routerLink="/home/products">Home</a></li>
     @if (displayOptions) {
       @for (category of categoryStore.topLevelCategories$ | async; track category.id) {
-        <li><a (click)="onCategoryClicked(category)">{{ category.category }}</a></li>
+        <li>
+          <a (click)="onCategoryClicked(category)">{{ category.category }}</a>
+        </li>
       }
     }
   </ul>

@@ -2,7 +2,13 @@
   <form [formGroup]="userLoginForm" (ngSubmit)="onSubmit()">
     <div class="form-group form-group-margin">
       <label for="email">Email*</label>
-      <input type="text" class="form-control" id="email" formControlName="email" autocomplete="email">
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        autocomplete="email"
+      />
       @if (email?.touched && email?.errors?.['required']) {
         <span class="text-danger">Email is required</span>
       }
@@ -12,7 +18,13 @@
     </div>
     <div class="form-group form-group-margin">
       <label for="password">Password*</label>
-      <input type="password" class="form-control" id="password" formControlName="password" autocomplete="current-password">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        autocomplete="current-password"
+      />
       @if (password?.touched && password?.errors?.['required']) {
         <span class="text-danger">Password is required</span>
       }
@@ -28,12 +40,10 @@
       Not a member? <a routerLink="../signup">Register</a>
     </div>
 
-    @if (
-      alert &&
+    @if (alert &&
       alert.message &&
       alert.type !== undefined &&
-      alert.type !== null
-    ) {
+      alert.type !== null) {
       <div class="alert" [ngClass]="alert.type === 0 ? 'alert-success' : 'alert-danger'">
         <fa-icon [icon]="alert.type === 0 ? faCheckCircle : faTimesCircle"></fa-icon>
         {{ alert.message }}

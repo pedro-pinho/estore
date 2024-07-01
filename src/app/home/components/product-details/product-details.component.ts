@@ -23,15 +23,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private productsService: ProductsService,
-    private cart: CartStoreItem
+    private cart: CartStoreItem,
   ) {}
 
   ngOnInit(): void {
-    const id: number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.subscriptions.add(
       this.productsService.getProduct(id).subscribe((product: Product) => {
         this.product = product;
-      })
+      }),
     );
   }
 

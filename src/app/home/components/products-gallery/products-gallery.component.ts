@@ -6,12 +6,9 @@ import { ProductsStoreItem } from '../../services/product/products.storeItem';
 @Component({
   selector: 'app-products-gallery',
   standalone: true,
-  imports: [
-    SidebarNavigationComponent,
-    ProductsComponent,
-  ],
+  imports: [SidebarNavigationComponent, ProductsComponent],
   templateUrl: './products-gallery.component.html',
-  styleUrl: './products-gallery.component.scss'
+  styleUrl: './products-gallery.component.scss',
 })
 export class ProductsGalleryComponent {
   constructor(private productsStoreItem: ProductsStoreItem) {}

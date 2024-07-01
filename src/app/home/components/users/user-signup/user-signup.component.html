@@ -6,12 +6,7 @@
     <div class="row form-group-margin">
       <div class="form-group col-md-6">
         <label for="firstName">First Name*</label>
-        <input
-          type="text"
-          class="form-control"
-          id="firstName"
-          formControlName="first_name"
-        />
+        <input type="text" class="form-control" id="firstName" formControlName="first_name" />
         @if (firstName?.touched && firstName?.errors?.['required']) {
           <span class="text-danger">First Name is required</span>
         }
@@ -21,43 +16,23 @@
       </div>
       <div class="form-group col-md-6">
         <label for="lastName">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="lastName"
-          formControlName="last_name"
-        />
+        <input type="text" class="form-control" id="lastName" formControlName="last_name" />
       </div>
     </div>
 
     <div class="form-group form-group-margin">
       <label for="address">Address</label>
-      <input
-        type="text"
-        class="form-control"
-        id="address"
-        formControlName="address"
-      />
+      <input type="text" class="form-control" id="address" formControlName="address" />
     </div>
 
     <div class="form-group form-group-margin">
       <label for="city">City</label>
-      <input
-        type="text"
-        class="form-control"
-        id="city"
-        formControlName="city"
-      />
+      <input type="text" class="form-control" id="city" formControlName="city" />
     </div>
 
     <div class="form-group form-group-margin">
       <label for="address">State</label>
-      <input
-        type="text"
-        class="form-control"
-        id="state"
-        formControlName="state"
-      />
+      <input type="text" class="form-control" id="state" formControlName="state" />
     </div>
 
     <div class="form-group form-group-margin">
@@ -118,18 +93,19 @@
       <button type="submit" class="btn btn-warning" [disabled]="!userSignupForm.valid">Join</button>
     </div>
 
-    @if (
-      alert &&
+    @if (alert &&
       alert.message &&
       alert.type !== undefined &&
-      alert.type !== null
-    ) {
-      <div class="alert" [ngClass]="alert.type === 0 ? 'alert-success' : alert.type === 1 ? 'alert-info' : alert.type === 2 ? 'alert-warning' : 'alert-danger'">
-        <fa-icon [icon]="alert.type === 0 ? faCheckCircle : alert.type === 1 ? faInfoCircle : alert.type === 2 ? faExclamationCircle : faTimesCircle"></fa-icon>
+      alert.type !== null) {
+      <div
+        class="alert"
+        [ngClass]="alert.type === 0 ? 'alert-success' : alert.type === 1 ? 'alert-info' : alert.type === 2 ? 'alert-warning' : 'alert-danger'"
+      >
+        <fa-icon
+          [icon]="alert.type === 0 ? faCheckCircle : alert.type === 1 ? faInfoCircle : alert.type === 2 ? faExclamationCircle : faTimesCircle"
+        ></fa-icon>
         {{ alert.message }}
       </div>
     }
-
   </form>
-
 </div>

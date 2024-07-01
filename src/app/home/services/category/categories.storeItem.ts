@@ -24,8 +24,7 @@ export class CategoriesStoreItem extends StoreItem<Category[]> {
     return this.value$.pipe(
       map((categories) => {
         return categories.filter((category) => category.parent_category_id === null);
-      }
-      )
+      }),
     );
   }
 }

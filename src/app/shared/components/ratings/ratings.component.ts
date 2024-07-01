@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition, faStar, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
-import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons'
+import {
+  IconDefinition,
+  faStar,
+  faStarHalfStroke,
+} from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,7 +13,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FontAwesomeModule, CommonModule],
   templateUrl: './ratings.component.html',
-  styleUrl: './ratings.component.scss'
+  styleUrl: './ratings.component.scss',
 })
 export class RatingsComponent {
   faStar = faStar;
@@ -17,7 +21,7 @@ export class RatingsComponent {
   faStarEmpty = faStarEmpty;
 
   stars: IconDefinition[] = [];
-  private _score: number = 0;
+  private _score = 0;
 
   @Input() set score(val: number) {
     if (this.stars.length > 0) {
@@ -27,7 +31,7 @@ export class RatingsComponent {
 
     const solidStarCount: number = Math.floor(this._score);
 
-    for (let i: number = 0; i < solidStarCount; i++) {
+    for (let i = 0; i < solidStarCount; i++) {
       this.stars.push(faStar);
     }
 

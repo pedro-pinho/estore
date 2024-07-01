@@ -16,7 +16,7 @@ import { filter } from 'rxjs';
     HeaderComponent,
     CategoryNavigationComponent,
     ProductsGalleryComponent,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -26,15 +26,17 @@ export class HomeComponent {
   constructor(
     private categoriesStoreItem: CategoriesStoreItem,
     private productsStoreItem: ProductsStoreItem,
-    private router: Router
+    private router: Router,
   ) {
     this.categoriesStoreItem.loadCategories();
     this.productsStoreItem.loadProducts();
-    router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
-      if ((event as NavigationEnd).url === '/home') {
-        router.navigate(['/home/products']);
-      }
-    });
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if ((event as NavigationEnd).url === '/home') {
+          router.navigate(['/home/products']);
+        }
+      });
   }
 
   onSelectCategory(categoryId: number): void {
@@ -43,7 +45,10 @@ export class HomeComponent {
 
   onSearchKeyword(searchKeyword: SearchKeyword): void {
     this.productsStoreItem.loadProducts(
-      'maincategoryid=' + searchKeyword.categoryId + '&keyword=' + searchKeyword.keyword
+      'maincategoryid=' +
+        searchKeyword.categoryId +
+        '&keyword=' +
+        searchKeyword.keyword,
     );
   }
 }

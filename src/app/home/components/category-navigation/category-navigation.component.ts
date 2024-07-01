@@ -14,9 +14,12 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 })
 export class CategoryNavigationComponent {
   @Output() categoryClicked: EventEmitter<number> = new EventEmitter<number>();
-  displayOptions: boolean = true;
+  displayOptions = true;
 
-  constructor(public categoryStore: CategoriesStoreItem, private router: Router) {
+  constructor(
+    public categoryStore: CategoriesStoreItem,
+    private router: Router,
+  ) {
     router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.displayOptions = (event as NavigationEnd).url === '/home/products';
     });

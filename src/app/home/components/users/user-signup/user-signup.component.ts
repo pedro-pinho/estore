@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormBuilder,
+  FormGroup,
+  AbstractControl,
+  Validators,
+} from '@angular/forms';
 import { matchPasswords } from './validators/match-passwords.validator';
 import { UserService } from '../../../services/users/user.service';
 import type { User } from '../../../types/user.type';
@@ -7,7 +14,12 @@ import type { Alert } from '../../../types/alert.type';
 import { AlertType } from '../../../types/alert.type';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheckCircle, faExclamationCircle, faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheckCircle,
+  faExclamationCircle,
+  faInfoCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-signup',
@@ -24,7 +36,10 @@ export class UserSignupComponent implements OnInit {
   faExclamationCircle = faExclamationCircle;
   faTimesCircle = faTimesCircle;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+  ) {}
 
   get firstName(): AbstractControl<any, any> | null {
     return this.userSignupForm.get('first_name');
@@ -43,19 +58,22 @@ export class UserSignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userSignupForm = this.formBuilder.group({
-      first_name: ['', [Validators.required, Validators.minLength(3)]],
-      last_name: ['', []],
-      address: ['', []],
-      city: ['', []],
-      state: ['', []],
-      pin: ['', []],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirm_password: ['', [Validators.required]]
-    },{
-      validator: matchPasswords,
-    });
+    this.userSignupForm = this.formBuilder.group(
+      {
+        first_name: ['', [Validators.required, Validators.minLength(3)]],
+        last_name: ['', []],
+        address: ['', []],
+        city: ['', []],
+        state: ['', []],
+        pin: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirm_password: ['', [Validators.required]],
+      },
+      {
+        validator: matchPasswords,
+      },
+    );
   }
 
   onSubmit(): void {
@@ -92,8 +110,7 @@ export class UserSignupComponent implements OnInit {
           };
         }
         console.log(this.alert);
-      }
+      },
     });
   }
-
 }

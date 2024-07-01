@@ -1,7 +1,7 @@
 @if (!cartStore.cart.products.length) {
   <div class="p-4 ec-main-div">
     <span class="my-5 ec-text">The Cart Is Empty</span>
-    <hr/>
+    <hr />
     <div class="btn btn-warning my-3" (click)="navigateToHome()">
       <span style="font-weight:500">Continue Shopping</span>
     </div>
@@ -13,7 +13,7 @@
       @for (cartItem of cart.products; track $index) {
         <div class="row cart-item-card">
           <div class="col-4">
-            <img [src]="'/images/' + cartItem.product.image" [alt]="cartItem.product.description">
+            <img [src]="'/images/' + cartItem.product.image" [alt]="cartItem.product.description" />
           </div>
           <div class="col-8">
             <div class="p-3 cart-item-details">
@@ -46,7 +46,6 @@
           <hr />
         </div>
       }
-
     </div>
     @if (cart.products.length) {
       <div class="col-4 px-4 py-3 my-4 cart-summary">
@@ -55,9 +54,7 @@
           <span>Cart Total : {{cart.totalAmount | currency}}</span>
           <span>Shipping Charges : Free</span>
           <hr />
-          <span class="summary-total">
-            Total: {{ cart.totalAmount | currency}}
-          </span>
+          <span class="summary-total"> Total: {{ cart.totalAmount | currency}} </span>
           <hr />
         </div>
         <div class="btn btn-outline-dark w-100 mb-4 mt-1">Checkout</div>

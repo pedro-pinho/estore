@@ -14,29 +14,39 @@ export const routes: Routes = [
       },
       {
         path: 'product/:id',
-        loadComponent: () => import('./home/components/product-details/product-details.component').then(m => m.ProductDetailsComponent)
+        loadComponent: () =>
+          import('./home/components/product-details/product-details.component').then(
+            (m) => m.ProductDetailsComponent,
+          ),
       },
       {
         path: 'cart',
-        loadComponent: () => import('./home/components/cart/cart.component').then(m => m.CartComponent)
+        loadComponent: () =>
+          import('./home/components/cart/cart.component').then((m) => m.CartComponent),
       },
       {
         path: 'signup',
-        loadComponent: () => import('./home/components/users/user-signup/user-signup.component').then(m => m.UserSignupComponent)
+        loadComponent: () =>
+          import('./home/components/users/user-signup/user-signup.component').then(
+            (m) => m.UserSignupComponent,
+          ),
       },
       {
         path: 'login',
-        component: UserLoginComponent
-      }
-    ]
+        loadComponent: () =>
+          import('./home/components/users/user-login/user-login.component').then(
+            (m) => m.UserLoginComponent,
+          ),
+      },
+    ],
   },
   {
     path: '',
     redirectTo: '/home/products',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '**',
-    loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent)
-  }
+    loadComponent: () => import('./not-found/not-found.component').then((m) => m.NotFoundComponent),
+  },
 ];

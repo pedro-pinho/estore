@@ -12,11 +12,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   standalone: true,
   imports: [CommonModule, RatingsComponent, FontAwesomeModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrl: './cart.component.scss',
 })
 export class CartComponent {
   faTrash = faTrash;
-  constructor(public cartStore: CartStoreItem, private router: Router) {}
+  constructor(
+    public cartStore: CartStoreItem,
+    private router: Router,
+  ) {}
 
   navigateToHome(): void {
     this.router.navigate(['/home/products']);
