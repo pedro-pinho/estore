@@ -14,7 +14,7 @@ export class OrderService {
   constructor(private httpClient: HttpClient, private cartStoreItem: CartStoreItem, private userService: UserService) {}
 
   saveOrder(deliveryAddress: DeliveryAddress, userEmail: string): Observable<any> {
-    const url = 'http://localhost:5001/orders';
+    const url = 'http://localhost:5001/orders/add';
     const orderDetails: OrderItem[] = [];
     this.cartStoreItem.cart.products.forEach((item) => {
       const orderItem: OrderItem = {

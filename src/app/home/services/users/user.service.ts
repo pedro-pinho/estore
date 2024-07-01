@@ -51,14 +51,13 @@ export class UserService {
     return this.httpClient.post(url, user);
   }
 
-  activateToken(token: UserLoginResponse, email: string): void {
-    const user = { ...token.user, email };
+  activateToken(token: UserLoginResponse): void {
     localStorage.setItem('token', token.token);
     localStorage.setItem(
       'expiresIn',
       new Date(Date.now() + token.expiresIn * 1000).toISOString(),
     );
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(token.user));
     this.isAuthenticated.next(true);
     this.loggedInUserInfo.next(token.user);
     this.setAutoLogoutTimer(token.expiresIn * 1000);
