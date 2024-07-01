@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsGalleryComponent } from './home/components/products-gallery/products-gallery.component';
+import { AuthGuard } from './home/auth.guard';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,14 @@ export const routes: Routes = [
             (m) => m.UserLoginComponent,
           ),
       },
+      {
+        path: 'order-history',
+        loadComponent: () =>
+          import('./home/components/order-history/order-history.component').then(
+            (m) => m.OrderHistoryComponent,
+          ),
+        canActivate: [AuthGuard],
+      }
     ],
   },
   {

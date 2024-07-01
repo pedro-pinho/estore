@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartStoreItem } from '../cart/cart.storeItem';
-import type { Order, OrderItem } from '../../types/order.type';
+import type { Order, OrderItem, OrderHistory, OrderHistoryProduct } from '../../types/order.type';
 import type { DeliveryAddress } from '../../types/cart.type';
 import { UserService } from '../users/user.service';
 
@@ -39,6 +39,30 @@ export class OrderService {
       headers: {
         Authorization: this.userService.token,
       },
+    });
+  }
+
+  getOrderHistory(userEmail: string): Observable<OrderHistory[]> {
+    if (!userEmail || !this.userService.token) {
+      return new Observable();
+    }
+    const url = 'http://localhost:5001/orders/list/' + userEmail;
+    return this.httpClient.get<OrderHistory[]>(url, {
+      headers: {
+        Authorization: this.userService.token,
+      }
+    });
+  }
+
+  getOrderHistoryProducts(orderId: number): Observable<OrderHistoryProduct[]> {
+    if (!orderId || !this.userService.token) {
+      return new Observable();
+    }
+    const url = 'http://localhost:5001/orders/details/' + orderId;
+    return this.httpClient.get<OrderHistoryProduct[]>(url, {
+      headers: {
+        Authorization: this.userService.token,
+      }
     });
   }
 }

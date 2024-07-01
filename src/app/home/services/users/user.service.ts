@@ -37,6 +37,10 @@ export class UserService {
     return this.loggedInUserInfo.asObservable();
   }
 
+  get loggedInUser(): loggedInUser {
+    return this.loggedInUserInfo.value;
+  }
+
   get token(): string {
     return this.authToken;
   }
