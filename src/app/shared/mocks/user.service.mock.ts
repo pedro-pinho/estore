@@ -17,7 +17,7 @@ export class UserServiceMock {
     state: "IL",
     pin: "62701",
   });
-  token: any;
+  token: any = 'token123';
 
   createUser(): any { };
   loginUser(): any { };

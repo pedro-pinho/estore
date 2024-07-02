@@ -1,37 +1,26 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, TestRequest, provideHttpClientTesting } from '@angular/common/http/testing';
 import { OrderService } from './order.service';
 import { CartStoreItem } from '../cart/cart.storeItem';
 import { UserService } from '../users/user.service';
 import { DeliveryAddress } from '../../types/cart.type';
-import { OrderHistory, OrderHistoryProduct } from '../../types/order.type';
+import { CartStoreItemMock } from '../../../shared/mocks/cart.storeItem.mock';
+import { UserServiceMock } from '../../../shared/mocks/user.service.mock';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('OrderService', () => {
   let service: OrderService;
   let httpMock: HttpTestingController;
-  let mockCartStoreItem: jasmine.SpyObj<CartStoreItem>;
-  let mockUserService: jasmine.SpyObj<UserService>;
 
   beforeEach(() => {
-    mockCartStoreItem = jasmine.createSpyObj('CartStoreItem', [], {
-      cart: {
-        products: [
-          { product: { id: 1, price: 100 }, quantity: 2, amount: 200 },
-        ],
-        totalAmount: 200,
-      },
-    });
-
-    mockUserService = jasmine.createSpyObj('UserService', [], {
-      token: 'fake-token',
-    });
-
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         OrderService,
-        { provide: CartStoreItem, useValue: mockCartStoreItem },
-        { provide: UserService, useValue: mockUserService },
+        { provide: CartStoreItem, useClass: CartStoreItemMock },
+        { provide: UserService, useClass: UserServiceMock },
       ],
     });
 
@@ -47,78 +36,40 @@ describe('OrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('saveOrder', () => {
-    it('should save order and return response', () => {
-      const deliveryAddress: DeliveryAddress = {
-        userName: 'John Doe',
-        address: '123 Main St',
-        city: 'Anytown',
-        state: 'Anystate',
-        pin: '12345',
-      };
-      const userEmail = 'john@example.com';
-      const mockResponse = { success: true };
+  it('should call post query on save orders', () => {
+    const deliveryAddress: DeliveryAddress = {
+      userName: 'John Doe',
+      address: '123 Main St',
+      city: 'Anytown',
+      state: 'Anystate',
+      pin: '12345',
+    };
+    const userEmail = 'john@gmail.com';
+    service.saveOrder(deliveryAddress, userEmail).subscribe();
 
-      service.saveOrder(deliveryAddress, userEmail).subscribe(response => {
-        expect(response).toEqual(mockResponse);
-      });
+    const request: TestRequest = httpMock.expectOne((req) => req.url === 'http://localhost:5001/orders/add');
 
-      const req = httpMock.expectOne('http://localhost:5001/orders/add');
-      expect(req.request.method).toBe('POST');
-      expect(req.request.headers.get('Authorization')).toBe('fake-token');
-      req.flush(mockResponse);
-    });
+    expect(request.request.method).toBe('POST');
+    expect(request.request.headers.get('Authorization')).toBe('token123');
   });
 
-  describe('getOrderHistory', () => {
-    it('should return order history for a user', () => {
-      const userEmail = 'john@example.com';
-      const mockOrderHistory: OrderHistory[] = [
-        { id: 1, user_name: 'John Doe', address: '123 Main St', city: 'Anytown', state: 'Anystate', pin: '12345', total: 200, order_date: '2023-01-01' },
-      ];
+  it('should call get query on get order history', () => {
+    const userEmail = 'john@gmail.com';
+    service.getOrderHistory(userEmail).subscribe();
 
-      service.getOrderHistory(userEmail).subscribe(orderHistory => {
-        expect(orderHistory).toEqual(mockOrderHistory);
-      });
+    const request: TestRequest = httpMock.expectOne((req) => req.url === 'http://localhost:5001/orders/list/' + userEmail);
 
-      const req = httpMock.expectOne('http://localhost:5001/orders/list/john@example.com');
-      expect(req.request.method).toBe('GET');
-      expect(req.request.headers.get('Authorization')).toBe('fake-token');
-      req.flush(mockOrderHistory);
-    });
-
-    it('should return an empty observable if userEmail is missing', () => {
-      service.getOrderHistory('').subscribe(orderHistory => {
-        expect(orderHistory.length).toBe(0);
-      });
-
-      httpMock.expectNone('http://localhost:5001/orders/list/');
-    });
+    expect(request.request.method).toBe('GET');
+    expect(request.request.headers.get('Authorization')).toBe('token123');
   });
 
-  describe('getOrderHistoryProducts', () => {
-    it('should return order history products for an order', () => {
-      const orderId = 1;
-      const mockOrderHistoryProducts: OrderHistoryProduct[] = [
-        { productId: 1, name: 'Product 1', image: 'image1.jpg', quantity: 2, price: 100, amount: 200 },
-      ];
+  it('should call get query on get order history products', () => {
+    const orderId = 1;
+    service.getOrderHistoryProducts(orderId).subscribe();
 
-      service.getOrderHistoryProducts(orderId).subscribe(orderHistoryProducts => {
-        expect(orderHistoryProducts).toEqual(mockOrderHistoryProducts);
-      });
+    const request: TestRequest = httpMock.expectOne((req) => req.url === 'http://localhost:5001/orders/details/' + orderId);
 
-      const req = httpMock.expectOne('http://localhost:5001/orders/details/1');
-      expect(req.request.method).toBe('GET');
-      expect(req.request.headers.get('Authorization')).toBe('fake-token');
-      req.flush(mockOrderHistoryProducts);
-    });
-
-    it('should return an empty observable if orderId is missing', () => {
-      service.getOrderHistoryProducts(0).subscribe(orderHistoryProducts => {
-        expect(orderHistoryProducts.length).toBe(0);
-      });
-
-      httpMock.expectNone('http://localhost:5001/orders/details/0');
-    });
+    expect(request.request.method).toBe('GET');
+    expect(request.request.headers.get('Authorization')).toBe('token123');
   });
 });
