@@ -77,7 +77,6 @@ export class UserSignupComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.userSignupForm.value);
     const user: User = {
       first_name: this.firstName?.value,
       last_name: this.userSignupForm.get('last_name')?.value,
@@ -89,8 +88,7 @@ export class UserSignupComponent implements OnInit {
       password: this.password?.value,
     };
     this.userService.createUser(user).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.alert = {
           type: AlertType.Success,
           message: 'User created successfully',
@@ -109,7 +107,6 @@ export class UserSignupComponent implements OnInit {
             message: error.error.message,
           };
         }
-        console.log(this.alert);
       },
     });
   }

@@ -28,7 +28,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         .getOrderHistory(this.userService.loggedInUser.email)
         .subscribe((pastOrders) => {
           this.pastOrders = pastOrders;
-          console.log('this.pastOrders', this.pastOrders);
 
         })
     );
@@ -36,10 +35,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   selectOrder(event: any) {
     if (Number.parseInt(event.target.value) > 0) {
-      console.log('this.pastOrders', this.pastOrders);
-      console.log('event.target.value', event.target.value);
-
-
       this.pastOrder = this.pastOrders.filter(
         (order) => order.id === Number.parseInt(event.target.value)
       )[0];
