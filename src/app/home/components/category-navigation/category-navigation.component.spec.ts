@@ -9,7 +9,7 @@ import { Router, provideRouter } from '@angular/router';
 import { routes } from '../../../app.routes';
 import { By } from '@angular/platform-browser';
 
-fdescribe('CategoryNavigationComponent', () => {
+describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
 
