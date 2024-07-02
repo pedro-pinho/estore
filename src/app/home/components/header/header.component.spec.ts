@@ -4,35 +4,26 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CategoriesStoreItem } from '../../services/category/categories.storeItem';
 import { CartStoreItem } from '../../services/cart/cart.storeItem';
 import { UserService } from '../../services/users/user.service';
-import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { UserServiceMock } from '../../../shared/mocks/user.service.mock';
+import { CartStoreItemMock } from '../../../shared/mocks/cart.storeItem.mock';
+import { CategoriesStoreItemMock } from '../../../shared/mocks/categories.storeItem.mock';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let mockCategoryStore: any;
-  let mockCartStore: any;
-  let mockUserService: any;
   let router: Router;
 
+  const eventSubject: ReplaySubject<RouterEvent> = new ReplaySubject<RouterEvent>(1);
+  const routerMock = {
+    events: eventSubject.asObservable(),
+    navigate: jasmine.createSpy('navigate')
+  };
+
   beforeEach(async () => {
-    mockCategoryStore = {
-      topLevelCategories$: of([{ id: 1, category: 'Electronics' }])
-    };
-
-    mockCartStore = {
-      cart$: of({ totalProducts: 3 })
-    };
-
-    mockUserService = {
-      isUserAuthenticated$: of(false),
-      loggedInUser$: of({ first_name: 'John' }),
-      logoutUser: jasmine.createSpy('logoutUser')
-    };
-
     await TestBed.configureTestingModule({
       imports: [
         HeaderComponent,
@@ -41,9 +32,10 @@ describe('HeaderComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: CategoriesStoreItem, useValue: mockCategoryStore },
-        { provide: CartStoreItem, useValue: mockCartStore },
-        { provide: UserService, useValue: mockUserService }
+        { provide: CategoriesStoreItem, useValue: CategoriesStoreItemMock },
+        { provide: CartStoreItem, useValue: CartStoreItemMock },
+        { provide: UserService, useClass: UserServiceMock },
+        { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
 
@@ -53,6 +45,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -60,67 +53,58 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display search bar when on /home/products', () => {
-    component.displaySearch = true;
-    fixture.detectChanges();
-    const searchBarContainer = fixture.debugElement.query(By.css('#search-bar-container'));
-    expect(searchBarContainer).toBeTruthy();
-  });
-
-  it('should emit searchClicked event with correct parameters', () => {
-    spyOn(component.searchClicked, 'emit');
-    const keyword = 'laptop';
-    const categoryId = '1';
-
-    component.onClickSearch(keyword, categoryId);
-
-    expect(component.searchClicked.emit).toHaveBeenCalledWith({ keyword, categoryId: parseInt(categoryId) });
-  });
-
   it('should navigate to cart on navigateToCart', () => {
-    spyOn(router, 'navigate');
-
     component.navigateToCart();
-
     expect(router.navigate).toHaveBeenCalledWith(['/home/cart']);
   });
 
-  it('should navigate to login on navigateToLogin', () => {
-    spyOn(router, 'navigate');
+  it('should display search if navigated to products', () => {
+    eventSubject.next(new NavigationEnd(1, '/home/products', '/home/products'));
+    expect(component.displaySearch).toBeTrue();
+  });
 
-    component.navigateToLogin();
+  it('should not display search if not navigated to products', () => {
+    eventSubject.next(new NavigationEnd(1, '/home/cart', '/home/cart'));
+    expect(component.displaySearch).toBeFalse();
+  });
 
-    expect(router.navigate).toHaveBeenCalledWith(['/home/login']);
+  it('should emit searchClicked on onClickSearch', () => {
+    const keyword = 'keyword';
+    const categoryId = '1';
+    const emitSpy = spyOn(component.searchClicked, 'emit');
+    component.onClickSearch(keyword, categoryId);
+    expect(emitSpy).toHaveBeenCalledWith({ keyword, categoryId: parseInt(categoryId) });
   });
 
   it('should navigate to signup on navigateToSignup', () => {
-    spyOn(router, 'navigate');
-
     component.navigateToSignup();
-
     expect(router.navigate).toHaveBeenCalledWith(['/home/signup']);
   });
 
+  it('should navigate to login on navigateToLogin', () => {
+    component.navigateToLogin();
+    expect(router.navigate).toHaveBeenCalledWith(['/home/login']);
+  });
+
   it('should navigate to order history on navigateToOrderHistory', () => {
-    spyOn(router, 'navigate');
-
     component.navigateToOrderHistory();
-
     expect(router.navigate).toHaveBeenCalledWith(['/home/order-history']);
   });
 
-  it('should logout user and navigate to products on logout', () => {
-    spyOn(router, 'navigate');
-
+  it('should logout on logout', () => {
+    const logoutSpy = spyOn(component.userService, 'logoutUser');
     component.logout();
+    expect(logoutSpy).toHaveBeenCalled();
+  });
 
-    expect(mockUserService.logoutUser).toHaveBeenCalled();
+  it('should navigate to products on logout', () => {
+    component.logout();
     expect(router.navigate).toHaveBeenCalledWith(['/home/products']);
   });
 
-  it('should unsubscribe from subscriptions on ngOnDestroy', () => {
-    spyOn(component.subscriptions, 'unsubscribe');
+  it('should unsubscribe on ngOnDestroy', () => {
+    const unsubscribeSpy = spyOn(component.subscriptions, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component.subscriptions.unsubscribe).toHaveBeenCalled();
+    expect(unsubscribeSpy).toHaveBeenCalled();
   });
 });
