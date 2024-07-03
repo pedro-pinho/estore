@@ -10,8 +10,8 @@ export class CartStoreItemMock {
     totalProducts: 3,
   };
   addProduct(): any {};
-  removeProduct: any;
-  decreaseProductQuantity: any;
+  decreaseProductQuantity(): any {};
+  removeProduct(): any {};
   saveCart: any;
-  clearCart: any;
+  clearCart(): any { };
 }

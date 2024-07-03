@@ -1,9 +1,10 @@
 import { Observable, of } from 'rxjs';
 import { OrderHistory, OrderHistoryProduct } from '../../home/types/order.type';
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 export class OrderServiceMock {
-  saveOrder(): any {}
+  saveOrder(a: any, b: any): Observable<any> {
+    return of({a, b});
+  }
   getOrderHistory(): Observable<OrderHistory[]> {
     return of([
       {

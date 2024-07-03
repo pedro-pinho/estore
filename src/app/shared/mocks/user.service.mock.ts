@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { loggedInUser } from '../../home/types/user.type';
+import { UserLoginResponse, loggedInUser } from '../../home/types/user.type';
 
 export class UserServiceMock {
   private _isUserAuthenticated = false;
@@ -26,7 +26,21 @@ export class UserServiceMock {
   token: any = 'token123';
 
   createUser(): any { };
-  loginUser(): any { };
+  loginUser(): Observable<UserLoginResponse> {
+    return of({
+      user: {
+        first_name: "John",
+        last_name: "Doe",
+        email: "john.doe@gmail.com",
+        address: "1234 Elm St",
+        city: "Springfield",
+        state: "IL",
+        pin: "62701",
+      },
+      token: 'token123',
+      expiresIn: 3600,
+    });
+  };
   activateToken(): any { };
   logoutUser(): any { };
   loadToken(): any { };
