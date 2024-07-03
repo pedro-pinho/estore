@@ -55,7 +55,7 @@ export class OrderService {
   }
 
   getOrderHistoryProducts(orderId: number): Observable<OrderHistoryProduct[]> {
-    if (!orderId || !this.userService.token) {
+    if (!this.userService.token) {
       return new Observable();
     }
     const url = 'http://localhost:5001/orders/details/' + orderId;

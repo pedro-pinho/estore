@@ -4,12 +4,22 @@ import { UserLoginResponse, loggedInUser } from '../../home/types/user.type';
 
 export class UserServiceMock {
   private _isUserAuthenticated = false;
+  private _token = 'token123';
   get isUserAuthenticated() {
     return this._isUserAuthenticated;
   }
   set isUserAuthenticated(value: boolean) {
     this._isUserAuthenticated = value;
   }
+  get token() {
+    return this._token;
+  }
+  set token(value: string) {
+    this._token = value;
+  }
+  autoLogoutTimer: any;
+  authToken: string;
+  isAuthenticated: Observable<boolean> = of(true);
   isUserAuthenticated$: Observable<boolean> = of(true);
   loggedInUser: Observable<loggedInUser> = of(({
     first_name: "John",
@@ -23,7 +33,6 @@ export class UserServiceMock {
     state: "IL",
     pin: "62701",
   });
-  token: any = 'token123';
 
   createUser(): any { };
   loginUser(): Observable<UserLoginResponse> {

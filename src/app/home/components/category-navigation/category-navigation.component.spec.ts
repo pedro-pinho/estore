@@ -59,7 +59,7 @@ describe('CategoryNavigationComponent', () => {
     ).toContain('Category 1');
     expect(
       fixture.debugElement.queryAll(By.css('li'))[2].nativeElement.textContent
-    ).toContain('Category 2');
+    ).toContain('Category 6');
   });
 
   it('should have route to products page on Home anchor', () => {

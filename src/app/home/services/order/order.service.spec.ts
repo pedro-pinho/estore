@@ -11,6 +11,7 @@ import { provideHttpClient } from '@angular/common/http';
 describe('OrderService', () => {
   let service: OrderService;
   let httpMock: HttpTestingController;
+  let userService: UserServiceMock;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,6 +26,7 @@ describe('OrderService', () => {
     });
 
     service = TestBed.inject(OrderService);
+    userService = TestBed.inject(UserService) as unknown as UserServiceMock;
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -53,6 +55,12 @@ describe('OrderService', () => {
     expect(request.request.headers.get('Authorization')).toBe('token123');
   });
 
+  it('should return an empty observable if no email is passed to get order history', () => {
+    service.getOrderHistory('').subscribe((data) => {
+      expect(data).toEqual([]);
+    });
+  });
+
   it('should call get query on get order history', () => {
     const userEmail = 'john@gmail.com';
     service.getOrderHistory(userEmail).subscribe();
@@ -61,6 +69,13 @@ describe('OrderService', () => {
 
     expect(request.request.method).toBe('GET');
     expect(request.request.headers.get('Authorization')).toBe('token123');
+  });
+
+  it('should return an empty observable if no token to get order history products', () => {
+    userService.token = '';
+    service.getOrderHistoryProducts(1).subscribe((data) => {
+      expect(data).toEqual([]);
+    });
   });
 
   it('should call get query on get order history products', () => {

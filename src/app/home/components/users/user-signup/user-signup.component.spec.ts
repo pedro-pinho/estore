@@ -89,4 +89,15 @@ describe('UserSignupComponent', () => {
     expect(component.alert?.type).toBe(AlertType.Error);
     expect(component.alert?.message).toBe('User creation failed');
   }));
+
+
+  it('should set warning message for creating user unsuccessfully', fakeAsync(() => {
+    spyOn(userService, 'createUser').and.returnValue(
+      throwError(() => ({ status: 409, error: { message: 'User already exists' } }))
+    );
+    component.onSubmit();
+    tick();
+    expect(component.alert?.type).toBe(AlertType.Warning);
+    expect(component.alert?.message).toBe('User already exists');
+  }));
 });
