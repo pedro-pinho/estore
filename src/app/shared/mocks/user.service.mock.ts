@@ -3,7 +3,13 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { loggedInUser } from '../../home/types/user.type';
 
 export class UserServiceMock {
-  isUserAuthenticated: any;
+  private _isUserAuthenticated = false;
+  get isUserAuthenticated() {
+    return this._isUserAuthenticated;
+  }
+  set isUserAuthenticated(value: boolean) {
+    this._isUserAuthenticated = value;
+  }
   isUserAuthenticated$: Observable<boolean> = of(true);
   loggedInUser: Observable<loggedInUser> = of(({
     first_name: "John",

@@ -28,7 +28,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         .getOrderHistory(this.userService.loggedInUser.email)
         .subscribe((pastOrders) => {
           this.pastOrders = pastOrders;
-
         })
     );
   }
@@ -48,7 +47,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   getOrderProducts(orderId: number): void {
     this.subscriptions.add(
       this.orderService.getOrderHistoryProducts(orderId).subscribe(products => {
-        this.pastOrderProducts = products
+        this.pastOrderProducts = products;
       })
     )
   }
